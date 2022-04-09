@@ -1,5 +1,6 @@
 # Getting Started
 
+This project is a fork from [gmx.io](https://gmx.io/) (see the original [github repository](https://github.com/gmx-io/gmx-interface)).\
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
