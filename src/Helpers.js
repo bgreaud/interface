@@ -1506,7 +1506,7 @@ export function getProvider(library, chainId) {
     return library.getSigner();
   }
   provider = _.sample(RPC_PROVIDERS[chainId]);
-  return new ethers.providers.JsonRpcProvider(provider);
+  return new ethers.providers.StaticJsonRpcProvider(provider, { chainId });
 }
 
 export const fetcher =
@@ -1714,7 +1714,11 @@ export function useAccountOrders(flagOrdersEnabled, overrideAccount) {
   const orderBookAddress = getContract(chainId, "OrderBook");
   const orderBookReaderAddress = getContract(chainId, "OrderBookReader");
   const key = shouldRequest ? [active, chainId, orderBookAddress, account] : false;
-  const { data: orders = [], mutate: updateOrders } = useSWR(key, {
+  const {
+    data: orders = [],
+    mutate: updateOrders,
+    error: ordersError,
+  } = useSWR(key, {
     dedupingInterval: 5000,
     fetcher: async (active, chainId, orderBookAddress, account) => {
       const provider = getProvider(library, chainId);
@@ -1793,7 +1797,7 @@ export function useAccountOrders(flagOrdersEnabled, overrideAccount) {
     },
   });
 
-  return [orders, updateOrders];
+  return [orders, updateOrders, ordersError];
 }
 
 export const formatAmount = (amount, tokenDecimals, displayDecimals, useCommas, defaultValue) => {
