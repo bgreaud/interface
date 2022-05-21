@@ -59,6 +59,8 @@ import {
   calculatePositionDelta,
   replaceNativeTokenAddress,
   adjustForDecimals,
+  REFERRAL_CODE_KEY,
+  isHashZero,
 } from "../../Helpers";
 import { getConstant } from "../../Constants";
 import * as Api from "../../Api";
@@ -172,6 +174,8 @@ export default function SwapBox(props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalError, setModalError] = useState(false);
   const [isHigherSlippageAllowed, setIsHigherSlippageAllowed] = useState(false);
+  const { userReferralCode } = Api.useUserReferralCode(library, chainId, account);
+  const userReferralCodeInLocalStorage = window.localStorage.getItem(REFERRAL_CODE_KEY);
 
   let allowedSlippage = savedSlippageAmount;
   if (isHigherSlippageAllowed) {
@@ -1014,22 +1018,36 @@ export default function SwapBox(props) {
     } else {
       outputCurrency = shortCollateralToken.address;
     }
-    let uniswapUrl = `https://app.uniswap.org/#/swap?inputCurrency=${inputCurrency}&outputCurrency=${outputCurrency}`;
+    let externalSwapUrl = "";
+    if (chainId === AVALANCHE) {
+      externalSwapUrl = `https://traderjoexyz.com/trade?outputCurrency=${outputCurrency}#/`;
+    } else {
+      externalSwapUrl = `https://app.uniswap.org/#/swap?inputCurrency=${inputCurrency}&outputCurrency=${outputCurrency}`;
+    }
+    let externalSwapName = chainId === AVALANCHE ? "Trader Joe" : "Uniswap";
     const label =
       modalError === "BUFFER" ? `${shortCollateralToken.symbol} Required` : `${fromToken.symbol} Capacity Reached`;
     const swapTokenSymbol = isLong ? toToken.symbol : shortCollateralToken.symbol;
     return (
       <Modal isVisible={!!modalError} setIsVisible={setModalError} label={label} className="Error-modal">
-        You will need to select {swapTokenSymbol} as the "Pay" token to initiate this trade.
+        <div>You need to select {swapTokenSymbol} as the "Pay" token to initiate this trade.</div>
         <br />
-        <br />
-        <a href={uniswapUrl} target="_blank" rel="noreferrer">
-          Buy {swapTokenSymbol} on Uniswap
+        {isShort && (
+          <div>
+            Alternatively you can select a different "Profits In" token.
+            <br />
+            <br />
+          </div>
+        )}
+        <a href={externalSwapUrl} target="_blank" rel="noreferrer">
+          Buy {swapTokenSymbol} on {externalSwapName}
         </a>
       </Modal>
     );
   }, [
+    chainId,
     modalError,
+    isShort,
     setModalError,
     fromToken?.address,
     toToken?.address,
@@ -1393,7 +1411,10 @@ export default function SwapBox(props) {
       });
   };
 
-  const referralCode = ethers.constants.HashZero;
+  let referralCode = ethers.constants.HashZero;
+  if (isHashZero(userReferralCode) && userReferralCodeInLocalStorage) {
+    referralCode = userReferralCodeInLocalStorage;
+  }
 
   const increasePosition = async () => {
     setIsSubmitting(true);
