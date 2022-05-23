@@ -1,7 +1,7 @@
 import React from "react";
-
-import DashboardV2 from "./DashboardV2";
+import SEO from "../../components/Common/SEO";
+import { getPageTitle } from "../../Helpers";
 
 export default function Dashboard(props) {
-  return <DashboardV2 />;
+  return <SEO title={getPageTitle("Dashboard")}></SEO>;
 }

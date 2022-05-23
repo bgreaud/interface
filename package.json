@@ -33,7 +33,7 @@
     "react-hot-toast": "^2.2.0",
     "react-icons": "^4.3.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^5.0.1",
     "react-select": "^5.2.1",
     "react-tabs": "^3.2.3",
     "react-toastify": "6.0.9",
@@ -54,12 +54,6 @@
     "lint": "node node_modules/.bin/eslint src",
     "pre-commit": "npm run test -- --watchAll=false && npm run lint",
     "prepare": "husky install"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [

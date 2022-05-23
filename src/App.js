@@ -41,20 +41,17 @@ import {
   REFERRAL_CODE_QUERY_PARAMS,
 } from "./Helpers";
 
+import About from "./views/About/About";
 import Home from "./views/Home/Home";
 import Presale from "./views/Presale/Presale";
 import Dashboard from "./views/Dashboard/Dashboard";
-import Ecosystem from "./views/Ecosystem/Ecosystem";
 import Stake from "./views/Stake/Stake";
 import { Exchange } from "./views/Exchange/Exchange";
 import Actions from "./views/Actions/Actions";
 import OrdersOverview from "./views/OrdersOverview/OrdersOverview";
 import PositionsOverview from "./views/PositionsOverview/PositionsOverview";
-import Referrals from "./views/Referrals/Referrals";
-import BuyGlp from "./views/BuyGlp/BuyGlp";
-import BuyGMX from "./views/BuyGMX/BuyGMX";
 import SellGlp from "./views/SellGlp/SellGlp";
-import Buy from "./views/Buy/Buy";
+import Mint from "./views/Mint/Mint";
 import NftWallet from "./views/NftWallet/NftWallet";
 import ClaimEsGmx from "./views/ClaimEsGmx/ClaimEsGmx";
 import BeginAccountTransfer from "./views/BeginAccountTransfer/BeginAccountTransfer";
@@ -64,7 +61,6 @@ import Debug from "./views/Debug/Debug";
 import cx from "classnames";
 import { cssTransition, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import NetworkSelector from "./components/NetworkSelector/NetworkSelector";
 import Modal from "./components/Modal/Modal";
 import Checkbox from "./components/Checkbox/Checkbox";
 
@@ -78,7 +74,7 @@ import "./App.css";
 import "./Input.css";
 import "./AppOrder.css";
 
-import logoImg from "./img/logo_GMX.svg";
+import logoImg from "./img/gmx_logo.svg";
 import logoSmallImg from "./img/logo_GMX_small.svg";
 import connectWalletImg from "./img/ic_wallet_24.svg";
 
@@ -100,7 +96,6 @@ import VaultV2 from "./abis/VaultV2.json";
 import VaultV2b from "./abis/VaultV2b.json";
 import PositionRouter from "./abis/PositionRouter.json";
 import PageNotFound from "./views/PageNotFound/PageNotFound";
-import ReferralTerms from "./views/ReferralTerms/ReferralTerms";
 
 if ("ethereum" in window) {
   window.ethereum.autoRefreshOnNetworkChange = false;
@@ -156,9 +151,9 @@ function AppHeaderLinks({ small, openSettings, clickCloseIcon }) {
           </NavLink>
         </div>
         <div className="App-header-link-container">
-          <a href="https://gmxio.gitbook.io/gmx/" target="_blank" rel="noopener noreferrer">
+          <NavLink activeClassName="active" to="/about">
             ABOUT
-          </a>
+          </NavLink>
         </div>
       </div>
     );
@@ -171,7 +166,8 @@ function AppHeaderLinks({ small, openSettings, clickCloseIcon }) {
             <FiX className="App-header-menu-icon" />
           </div>
           <Link className="App-header-link-main" to="/">
-            <img src={logoImg} alt="GMX Logo" />
+            <img src={logoImg} alt="EVEREST Logo" />
+            <div>EVEREST</div>
           </Link>
         </div>
       )}
@@ -180,51 +176,21 @@ function AppHeaderLinks({ small, openSettings, clickCloseIcon }) {
           Home
         </NavLink>
       </div>
-      {small && (
-        <div className="App-header-link-container">
-          <NavLink activeClassName="active" to="/trade">
-            Trade
-          </NavLink>
-        </div>
-      )}
       <div className="App-header-link-container">
         <NavLink activeClassName="active" to="/dashboard">
           Dashboard
         </NavLink>
       </div>
       <div className="App-header-link-container">
-        <NavLink activeClassName="active" to="/earn">
-          Earn
+        <NavLink activeClassName="active" to="/mint">
+          Mint
         </NavLink>
       </div>
       <div className="App-header-link-container">
-        <NavLink activeClassName="active" to="/buy">
-          Buy
-        </NavLink>
-      </div>
-      <div className="App-header-link-container">
-        <NavLink activeClassName="active" to="/referrals">
-          Referrals
-        </NavLink>
-      </div>
-      <div className="App-header-link-container">
-        <NavLink activeClassName="active" to="/ecosystem">
-          Ecosystem
-        </NavLink>
-      </div>
-      <div className="App-header-link-container">
-        <a href="https://gmxio.gitbook.io/gmx/" target="_blank" rel="noopener noreferrer">
+        <NavLink activeClassName="active" to="/about">
           About
-        </a>
+        </NavLink>
       </div>
-      {small && (
-        <div className="App-header-link-container">
-          {/* eslint-disable-next-line */}
-          <a href="#" onClick={openSettings}>
-            Settings
-          </a>
-        </div>
-      )}
     </div>
   );
 }
@@ -275,23 +241,6 @@ function AppHeaderUser({
   if (!active) {
     return (
       <div className="App-header-user">
-        <div className="App-header-user-link">
-          <NavLink activeClassName="active" className="default-btn" to="/trade">
-            Trade
-          </NavLink>
-        </div>
-        {showSelector && (
-          <NetworkSelector
-            options={networkOptions}
-            label={selectorLabel}
-            onSelect={onNetworkSelect}
-            className="App-header-user-netowork"
-            showCaret={true}
-            modalLabel="Select Network"
-            small={small}
-            showModal={showNetworkSelectorModal}
-          />
-        )}
         <ConnectWalletButton onClick={() => setWalletModalVisible(true)} imgSrc={connectWalletImg}>
           {small ? "Connect" : "Connect Wallet"}
         </ConnectWalletButton>
@@ -303,23 +252,6 @@ function AppHeaderUser({
 
   return (
     <div className="App-header-user">
-      <div className="App-header-user-link">
-        <NavLink activeClassName="active" className="default-btn" to="/trade">
-          Trade
-        </NavLink>
-      </div>
-      {showSelector && (
-        <NetworkSelector
-          options={networkOptions}
-          label={selectorLabel}
-          onSelect={onNetworkSelect}
-          className="App-header-user-netowork"
-          showCaret={true}
-          modalLabel="Select Network"
-          small={small}
-          showModal={showNetworkSelectorModal}
-        />
-      )}
       <div className="App-header-user-address">
         <AddressDropdown
           account={account}
@@ -656,8 +588,8 @@ function FullApp() {
             <div className="App-header large">
               <div className="App-header-container-left">
                 <Link className="App-header-link-main" to="/">
-                  <img src={logoImg} className="big" alt="GMX Logo" />
-                  <img src={logoSmallImg} className="small" alt="GMX Logo" />
+                  <img src={logoImg} alt="EVEREST Logo" />
+                  <div>EVEREST</div>
                 </Link>
                 <AppHeaderLinks />
               </div>
@@ -684,8 +616,8 @@ function FullApp() {
                     {isDrawerVisible && <FaTimes className="App-header-menu-icon" />}
                   </div>
                   <div className="App-header-link-main clickable" onClick={() => setIsDrawerVisible(!isDrawerVisible)}>
-                    <img src={logoImg} className="big" alt="GMX Logo" />
-                    <img src={logoSmallImg} className="small" alt="GMX Logo" />
+                    <img src={logoImg} alt="EVEREST Logo" />
+                    <div>EVEREST</div>
                   </div>
                 </div>
                 <div className="App-header-container-right">
@@ -721,20 +653,6 @@ function FullApp() {
             <Route exact path="/">
               <Home />
             </Route>
-            <Route exact path="/trade">
-              <Exchange
-                ref={exchangeRef}
-                savedShowPnlAfterFees={savedShowPnlAfterFees}
-                savedIsPnlInLeverage={savedIsPnlInLeverage}
-                setSavedIsPnlInLeverage={setSavedIsPnlInLeverage}
-                savedSlippageAmount={savedSlippageAmount}
-                setPendingTxns={setPendingTxns}
-                pendingTxns={pendingTxns}
-                savedShouldShowPositionLines={savedShouldShowPositionLines}
-                setSavedShouldShowPositionLines={setSavedShouldShowPositionLines}
-                connectWallet={connectWallet}
-              />
-            </Route>
             <Route exact path="/presale">
               <Presale />
             </Route>
@@ -744,19 +662,8 @@ function FullApp() {
             <Route exact path="/earn">
               <Stake setPendingTxns={setPendingTxns} connectWallet={connectWallet} />
             </Route>
-            <Route exact path="/buy">
-              <Buy
-                savedSlippageAmount={savedSlippageAmount}
-                setPendingTxns={setPendingTxns}
-                connectWallet={connectWallet}
-              />
-            </Route>
-            <Route exact path="/buy_glp">
-              <BuyGlp
-                savedSlippageAmount={savedSlippageAmount}
-                setPendingTxns={setPendingTxns}
-                connectWallet={connectWallet}
-              />
+            <Route exact path="/mint">
+              <Mint />
             </Route>
             <Route exact path="/sell_glp">
               <SellGlp
@@ -765,17 +672,8 @@ function FullApp() {
                 connectWallet={connectWallet}
               />
             </Route>
-            <Route exact path="/buy_gmx">
-              <BuyGMX />
-            </Route>
-            <Route exact path="/ecosystem">
-              <Ecosystem />
-            </Route>
-            <Route exact path="/referrals">
-              <Referrals pendingTxns={pendingTxns} connectWallet={connectWallet} setPendingTxns={setPendingTxns} />
-            </Route>
             <Route exact path="/about">
-              <Home />
+              <About />
             </Route>
             <Route exact path="/nft_wallet">
               <NftWallet />
@@ -803,9 +701,6 @@ function FullApp() {
             </Route>
             <Route exact path="/debug">
               <Debug />
-            </Route>
-            <Route exact path="/referral-terms">
-              <ReferralTerms />
             </Route>
             <Route path="*">
               <PageNotFound />
@@ -921,8 +816,8 @@ function PreviewApp() {
             <div className="App-header large preview">
               <div className="App-header-container-left">
                 <NavLink exact activeClassName="active" className="App-header-link-main" to="/">
-                  <img src={logoImg} alt="GMX Logo" />
-                  GMX
+                  <img src={logoImg} alt="EVEREST Logo" />
+                  <div>EVEREST</div>
                 </NavLink>
               </div>
               <div className="App-header-container-right">
@@ -937,7 +832,7 @@ function PreviewApp() {
               >
                 <div className="App-header-container-left">
                   <div className="App-header-link-main">
-                    <img src={logoImg} alt="GMX Logo" />
+                    <img src={logoImg} alt="EVEREST Logo" />
                   </div>
                 </div>
                 <div className="App-header-container-right">

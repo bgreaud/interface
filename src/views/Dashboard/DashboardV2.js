@@ -869,7 +869,6 @@ export default function DashboardV2() {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     </SEO>
   );

@@ -597,6 +597,11 @@ button.App-connect-wallet:hover {
   display: none;
 }
 
+.App-header-link-main div {
+  color: #ffffff;
+  padding-left: 2px;
+}
+
 .App-header a {
   text-decoration: none;
   vertical-align: middle;
