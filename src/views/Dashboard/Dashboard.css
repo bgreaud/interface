@@ -1,82 +1,36 @@
-.Dashboard-title {
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: #16182e;
+  border-radius: 16px;
 }
 
-.Dashboard-volumes-header {
+.table-wrapper {
+  margin-right: 64px;
+  margin-left: 64px;
+  margin-top: 10px;
 }
 
-.Dashboard-volumes {
+th.header-cell, td.body-cell {
+  padding: 20px 16px;
 }
 
-.Dashboard-fee-info {
+td.body-cell {
+  border-top: 2px solid #101124;
+}
+
+tr.body-row:hover {
+  background-color: rgba(128,138,255,0.0784313725490196);
+}
+
+.Page-title {
   text-align: center;
-  line-height: 1.5rem;
 }
 
-.Dashboard-token-card-bottom {
-}
-
-.Dashboard-title-primary {
-}
-
-.Dashboard-note {
+.page-layout {
   text-align: center;
-}
-
-.Dashboard-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  padding: 2rem;
-  grid-gap: 1rem;
-}
-
-.Dashboard-fees-list {
-}
-
-.Dashboard-volume-list {
-}
-
-.Dashboard-token-card .Dashboard-token-title-options {
-  opacity: 0.5;
-  filter: sepia(100%) hue-rotate(190deg);
-}
-
-.Dashboard-token-card:hover .Dashboard-token-title-options {
-  opacity: 1;
-  filter: none;
-}
-
-.Dashboard-token-card.usdg {
-}
-
-.Dashboard-token-title {
-  display: grid;
-  grid-template-columns: auto auto;
-}
-
-.Dashboard-token-title-options {
-  text-align: right;
-}
-
-.Dashboard-token-title img {
-  cursor: pointer;
-  height: 1.2rem;
-  margin-left: 0.3rem;
-  opacity: 0.9;
-}
-
-.Dashboard-token-title img:hover {
-  opacity: 1;
-}
-
-.Dashboard-token-info {
-}
-
-.Dashboard-fees {
-  padding-bottom: 3rem;
-}
-
-@media (max-width: 700px) {
-  .Dashboard-list {
-    grid-template-columns: 1fr;
-  }
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 3rem;
+  padding-bottom: 2rem;
 }

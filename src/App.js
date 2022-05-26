@@ -45,6 +45,7 @@ import About from "./views/About/About";
 import Home from "./views/Home/Home";
 import Presale from "./views/Presale/Presale";
 import Dashboard from "./views/Dashboard/Dashboard";
+import Manage from "./views/Dashboard/Manage";
 import Stake from "./views/Stake/Stake";
 import { Exchange } from "./views/Exchange/Exchange";
 import Actions from "./views/Actions/Actions";
@@ -52,6 +53,7 @@ import OrdersOverview from "./views/OrdersOverview/OrdersOverview";
 import PositionsOverview from "./views/PositionsOverview/PositionsOverview";
 import SellGlp from "./views/SellGlp/SellGlp";
 import Mint from "./views/Mint/Mint";
+import MintForm from "./views/Mint/MintForm";
 import NftWallet from "./views/NftWallet/NftWallet";
 import ClaimEsGmx from "./views/ClaimEsGmx/ClaimEsGmx";
 import BeginAccountTransfer from "./views/BeginAccountTransfer/BeginAccountTransfer";
@@ -659,11 +661,17 @@ function FullApp() {
             <Route exact path="/dashboard">
               <Dashboard />
             </Route>
+            <Route exact path="/dashboard/manage">
+              <Manage />
+            </Route>
             <Route exact path="/earn">
               <Stake setPendingTxns={setPendingTxns} connectWallet={connectWallet} />
             </Route>
             <Route exact path="/mint">
               <Mint />
+            </Route>
+            <Route exact path="/mint/mint_form">
+              <MintForm />
             </Route>
             <Route exact path="/sell_glp">
               <SellGlp

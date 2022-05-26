@@ -1,0 +1,21 @@
+.form-wrapper {
+  background: #16182e;
+  border-radius: 16px;
+  margin-right: 256px;
+  margin-left: 256px;
+  margin-top: 10px;
+}
+
+input {
+  border: 2px solid #101124 !important;
+  margin: 20px 0 !important;
+  text-align: center;
+}
+
+.input-header, .input-info, .default-btn{
+  margin-top: 10px !important;
+}
+
+.default-btn, .connect-warning {
+  margin-bottom: 10px;
+}

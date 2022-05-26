@@ -1,0 +1,36 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: #16182e;
+  border-radius: 16px;
+}
+
+.table-wrapper {
+  margin-right: 64px;
+  margin-left: 64px;
+  margin-top: 10px;
+}
+
+th.header-cell, td.body-cell {
+  padding: 20px 16px;
+}
+
+td.body-cell {
+  border-top: 2px solid #101124;
+}
+
+tr.body-row:hover {
+  background-color: rgba(128,138,255,0.0784313725490196);
+}
+
+.Page-title {
+  text-align: center;
+}
+
+.page-layout {
+  text-align: center;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 3rem;
+  padding-bottom: 2rem;
+}
